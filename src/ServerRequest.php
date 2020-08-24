@@ -44,7 +44,9 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         if ($server["REQUEST_URI"]) {
             $path = $server["REQUEST_URI"];
-            $path = substr($path, 0, -strlen($server["QUERY_STRING"]));
+            if ($server["QUERY_STRING"]) {
+                $path = substr($path, 0, - (strlen($server["QUERY_STRING"]) + 1));
+            }
             $uri = $uri->withPath($path);
         }
 
