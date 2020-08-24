@@ -4,7 +4,7 @@ declare(strict_types=1);
 //error_reporting(E_ALL && ~E_WARNING && ~E_NOTICE);
 use PHPUnit\Framework\TestCase;
 
-use PHP\Psr7\JSONStream;
+use PHP\Psr7\JsonStream;
 
 final class JsonStreamTest extends TestCase
 {
