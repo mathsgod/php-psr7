@@ -112,13 +112,22 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getParsedBody()
     {
+        if ($this->getMethod() == "POST") {
+            if (
+                strpos($this->getHeaderLine("Content_Type"), "application/x-www-form-urlencoded") !== false ||
+                strpos($this->getHeaderLine("Content-Type"), "multipart/form-data") !== false
+            ) {
+                return $_POST;
+            }
+        }
+
+
         $body = (string)$this->getBody();
         if (strpos($this->getHeaderLine("Content-Type"), "application/json") !== false) {
             return json_decode($body, true);
         }
-        $parsed_body = [];
-        parse_str($body, $parsed_body);
-        return $body;
+
+        return unserialize($body);
     }
 
     public function getUploadedFiles()
