@@ -18,7 +18,8 @@ final class ServerRequestTest extends TestCase
             "SERVER_PORT" => 80,
             "REQUEST_URI" => "/cms/User/test?a=1&b=2",
             "SCRIPT_NAME" => "/cms/index.php",
-            "REQUEST_SCHEME" => "http"
+            "REQUEST_SCHEME" => "http",
+            "QUERY_STRING" => "a=1&b=2"
         ];
 
         $r = new ServerRequest($server);

@@ -6,15 +6,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
 {
-    protected $attributes = [];
+    protected $server = [];
     protected $cookies;
+    protected $attributes = [];
     protected $uploadedFiles = [];
 
     public function __construct(array $server = [])
     {
         if (!$server) {
-            $server = $this->getServerParams();
+            $server = $_SERVER;
         }
+        $this->cookies = $_COOKIE;
 
         $uri = new Uri();
         if ($scheme = $server["REQUEST_SCHEME"]) {
@@ -48,7 +50,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         $protocol = explode("/", $server["SERVER_PROTOCOL"], 2);
         parent::__construct($server["REQUEST_METHOD"] ?? "GET", $uri, (array)getallheaders(), file_get_contents("php://input", $protocol[1]));
 
-        $this->cookies = $_COOKIE;
+
         if ($_FILES) {
 
             $parseUploadedFile = function ($files) use (&$parseUploadedFile) {
@@ -81,7 +83,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getServerParams()
     {
-        return $_SERVER;
+        return $this->server;
     }
 
     public function getCookieParams()
