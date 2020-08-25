@@ -114,7 +114,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         if ($this->getMethod() == "POST") {
             if (
-                strpos($this->getHeaderLine("Content_Type"), "application/x-www-form-urlencoded") !== false ||
+                strpos($this->getHeaderLine("Content-Type"), "application/x-www-form-urlencoded") !== false ||
                 strpos($this->getHeaderLine("Content-Type"), "multipart/form-data") !== false
             ) {
                 return $_POST;
