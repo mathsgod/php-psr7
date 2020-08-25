@@ -3,6 +3,7 @@
 namespace PHP\Psr7;
 
 use Psr\Http\Message\UploadedFileInterface;
+use RuntimeException;
 
 class UploadedFile implements UploadedFileInterface
 {
@@ -16,7 +17,7 @@ class UploadedFile implements UploadedFileInterface
     public function __construct(array $file)
     {
         if ($file["tmp_name"]) {
-            $this->stream = new Stream(fopen($file["tmp_name"], "r"));
+            $this->stream = new FileStream($file["tmp_name"], "r");
         }
 
         $this->size = $file["size"];
@@ -27,6 +28,9 @@ class UploadedFile implements UploadedFileInterface
 
     public function getStream()
     {
+        if ($this->stream) {
+            throw new RuntimeException("no stream is available or can be created");
+        }
         return $this->stream;
     }
 
