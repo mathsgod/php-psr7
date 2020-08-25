@@ -56,7 +56,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         $this->uri = $uri;
 
-        $this->body = new Stream(fopen("php://input", "r"));
+        $this->body = new StringStream(file_get_contents("php://input"));
 
         if ($_FILES) {
 
@@ -114,13 +114,12 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         if ($this->getMethod() == "POST") {
             if (
-                strpos($this->getHeaderLine("Content-Type"), "application/x-www-form-urlencoded") !== false ||
+                strpos($this->getHeaderLine("Content_Type"), "application/x-www-form-urlencoded") !== false ||
                 strpos($this->getHeaderLine("Content-Type"), "multipart/form-data") !== false
             ) {
                 return $_POST;
             }
         }
-
 
         $body = (string)$this->getBody();
         if (strpos($this->getHeaderLine("Content-Type"), "application/json") !== false) {
@@ -168,7 +167,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function withParsedBody($data)
     {
-        $stream = (new StringStream(serialize($data)));
+        $stream = (new Stream(serialize($data)));
         return $this->withBody($stream);
     }
 
