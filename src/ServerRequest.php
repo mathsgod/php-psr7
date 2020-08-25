@@ -14,15 +14,6 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         $server = $this->getServerParams();
 
-        $this->method = $server["REQUEST_METHOD"];
-        $headers = getallheaders();
-        foreach ($headers as $name => $value) {
-            $this->headers[$name] = explode(",", $value);
-        }
-
-        $protocol = explode("/", $server["SERVER_PROTOCOL"], 2);
-        $this->protocolVersion = $protocol[1];
-
         $uri = new Uri();
         if ($scheme = $server["REQUEST_SCHEME"]) {
             $uri = $uri->withScheme($scheme);
@@ -52,12 +43,10 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         $uri = $uri->withQuery($server["QUERY_STRING"] ?? "");
 
+        $protocol = explode("/", $server["SERVER_PROTOCOL"], 2);
+        parent::__construct($server["REQUEST_METHOD"], $uri, (array)getallheaders(), file_get_contents("php://input", $protocol[1]));
+
         $this->cookies = $_COOKIE;
-
-        $this->uri = $uri;
-
-        $this->body = new StringStream(file_get_contents("php://input"));
-
         if ($_FILES) {
 
             $parseUploadedFile = function ($files) use (&$parseUploadedFile) {
@@ -97,7 +86,6 @@ class ServerRequest extends Request implements ServerRequestInterface
     {
         return $this->cookies;
     }
-
 
     public function getQueryParams()
     {
