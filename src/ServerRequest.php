@@ -44,7 +44,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         $uri = $uri->withQuery($server["QUERY_STRING"] ?? "");
 
         $protocol = explode("/", $server["SERVER_PROTOCOL"], 2);
-        parent::__construct($server["REQUEST_METHOD"], $uri, (array)getallheaders(), file_get_contents("php://input", $protocol[1]));
+        parent::__construct($server["REQUEST_METHOD"] ?? "GET", $uri, (array)getallheaders(), file_get_contents("php://input", $protocol[1]));
 
         $this->cookies = $_COOKIE;
         if ($_FILES) {
