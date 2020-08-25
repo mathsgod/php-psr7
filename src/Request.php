@@ -11,7 +11,7 @@ class Request extends Message implements RequestInterface
     protected $method;
     protected $requestTarget;
 
-    public function __construct(string $method, UriInterface $uri, array $headers = [], $body = new StringStream(), $version = '1.1')
+    public function __construct(string $method, UriInterface $uri, array $headers = [], $body = null, $version = '1.1')
     {
         $this->method = $method;
         $this->uri = $uri;

@@ -9,7 +9,7 @@ class Response extends Message implements ResponseInterface
     protected $code;
     protected $reasonPhrase = '';
 
-    public function __construct(int $status = 200, array $headers = [], $body = new StringStream(), string $version = '1.1')
+    public function __construct(int $status = 200, array $headers = [], $body = null, string $version = '1.1')
     {
         $this->code = $status;
         parent::__construct($headers, $body, $version);
