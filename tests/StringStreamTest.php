@@ -13,5 +13,8 @@ final class StringStreamTest extends TestCase
         $s = new StringStream("hello");
 
         $this->assertEquals("hello", (string)$s);
+
+        $s->write(" world");
+        $this->assertEquals("hello world", (string)$s);
     }
 }

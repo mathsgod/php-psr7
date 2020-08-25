@@ -8,6 +8,11 @@ class ObjectStream extends StringStream implements StreamInterface
 {
     protected $_data = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function write($obj)
     {
         $this->_data[] = $obj;
