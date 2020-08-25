@@ -12,7 +12,18 @@ final class ServerRequestTest extends TestCase
 
     public function test_create()
     {
-        $r = new ServerRequest;
+        $server = [
+            "METHOD" => "GET",
+            "SERVER_NAME" => "127.0.0.1",
+            "SERVER_PORT" => 80,
+            "REQUEST_URI" => "/cms/User/test?a=1&b=2",
+            "SCRIPT_NAME" => "/cms/index.php",
+            "REQUEST_SCHEME" => "http"
+        ];
+
+        $r = new ServerRequest($server);
         $this->assertInstanceOf(ServerRequest::class, $r);
+        $this->assertEquals("GET", $r->getMethod());
+        $this->assertEquals("http://127.0.0.1/cms/User/test?a=1&b=2", (string)$r->getUri());
     }
 }

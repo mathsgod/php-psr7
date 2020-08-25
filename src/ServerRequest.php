@@ -10,9 +10,11 @@ class ServerRequest extends Request implements ServerRequestInterface
     protected $cookies;
     protected $uploadedFiles = [];
 
-    public function __construct()
+    public function __construct(array $server = [])
     {
-        $server = $this->getServerParams();
+        if (!$server) {
+            $server = $this->getServerParams();
+        }
 
         $uri = new Uri();
         if ($scheme = $server["REQUEST_SCHEME"]) {
