@@ -56,7 +56,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         $this->uri = $uri;
 
-        $this->body = new Stream(fopen("php://input", "r"));
+        $this->body = new StringStream();
 
         if ($_FILES) {
 
@@ -168,7 +168,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function withParsedBody($data)
     {
-        $stream = (new Stream(serialize($data)));
+        $stream = (new StringStream(serialize($data)));
         return $this->withBody($stream);
     }
 

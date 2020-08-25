@@ -11,15 +11,13 @@ class Message implements MessageInterface
     protected $headers = [];
     protected $body;
 
-    public function __construct(array $headers = [], $body = null, string $version = "1.1")
+    public function __construct(array $headers = [], $body = new StringStream(), string $version = "1.1")
     {
         foreach ($headers as $name => $value) {
             $this->headers[$name] = array_map("trim", explode(",", $value));
         }
 
-        if ($body === null) {
-            $this->body = new Stream();
-        }
+        $this->body = $body;
 
         $this->protocolVersion = $version;
     }
