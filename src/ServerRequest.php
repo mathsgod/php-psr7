@@ -56,7 +56,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
         $this->uri = $uri;
 
-        $this->body = new StringStream();
+        $this->body = new Stream(fopen("php://input", "r"));
 
         if ($_FILES) {
 
