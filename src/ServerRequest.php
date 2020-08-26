@@ -14,6 +14,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function __construct(array $server = null)
     {
         $this->server = $server ?? $_SERVER;
+        $server = $this->server;
         $this->cookies = $_COOKIE;
 
         $uri = new Uri();
