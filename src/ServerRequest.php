@@ -11,11 +11,9 @@ class ServerRequest extends Request implements ServerRequestInterface
     protected $attributes = [];
     protected $uploadedFiles = [];
 
-    public function __construct(array $server = [])
+    public function __construct(array $server = null)
     {
-        if (!$server) {
-            $server = $_SERVER;
-        }
+        $this->server = $server ?? $_SERVER;
         $this->cookies = $_COOKIE;
 
         $uri = new Uri();
