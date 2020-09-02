@@ -40,10 +40,12 @@ class ServerRequest extends Request implements ServerRequestInterface
             $url = parse_url($server["REQUEST_URI"]);
             $uri = $uri->withPath($url["path"]);
 
-            if (isset($url["query"])) {
+            if ($url["query"] != "") {
                 $uri = $uri->withQuery($url["query"]);
             }
         }
+
+        $uri = $uri->withQuery($server["QUERY_STRING"] ?? "");
 
         $protocol = explode("/", $server["SERVER_PROTOCOL"], 2);
         parent::__construct($server["REQUEST_METHOD"] ?? "GET", $uri, (array)getallheaders(), file_get_contents("php://input", $protocol[1]));
