@@ -28,7 +28,7 @@ class UploadedFile implements UploadedFileInterface
 
     public function getStream()
     {
-        if ($this->stream) {
+        if (!$this->stream) {
             throw new RuntimeException("no stream is available or can be created");
         }
         return $this->stream;
