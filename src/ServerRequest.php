@@ -122,6 +122,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return unserialize($body);
     }
 
+    /**
+     * @return UploadedFile[]
+     */
     public function getUploadedFiles()
     {
         return $this->uploadedFiles;
