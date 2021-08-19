@@ -16,11 +16,9 @@ class ServerRequestFactory extends DiactorosServerRequestFactory
     ): ServerRequest {
         $request = parent::fromGlobals($server, $query, $body, $cookies, $files);
 
-        if ($request->getMethod() == "POST") {
-            if (strpos($request->getHeaderLine("Content-Type"), "application/json") !== false) {
-                $body = $request->getBody()->getContents();
-                $request = $request->withParsedBody(json_decode($body, true));
-            }
+        if (strpos($request->getHeaderLine("Content-Type"), "application/json") !== false) {
+            $body = $request->getBody()->getContents();
+            $request = $request->withParsedBody(json_decode($body, true));
         }
 
         return $request;
