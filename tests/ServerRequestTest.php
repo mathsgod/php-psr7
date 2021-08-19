@@ -3,9 +3,10 @@
 declare(strict_types=1);
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 
+use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-use PHP\Psr7\ServerRequest;
+use PHP\Psr7\ServerRequestFactory;
 
 final class ServerRequestTest extends TestCase
 {
@@ -22,9 +23,10 @@ final class ServerRequestTest extends TestCase
             "QUERY_STRING" => "a=1&b=2"
         ];
 
-        $r = new ServerRequest($server);
+        $r = ServerRequestFactory::fromGlobals($server);
         $this->assertInstanceOf(ServerRequest::class, $r);
         $this->assertEquals("GET", $r->getMethod());
         $this->assertEquals("http://127.0.0.1/cms/User/test?a=1&b=2", (string)$r->getUri());
     }
+
 }
