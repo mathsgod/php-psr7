@@ -105,17 +105,17 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getParsedBody()
     {
-        if ($this->getMethod() == "POST") {
+        if (strtoupper($this->getMethod()) == "POST") {
             if (
-                strpos($this->getHeaderLine("Content-Type"), "application/x-www-form-urlencoded") !== false ||
-                strpos($this->getHeaderLine("Content-Type"), "multipart/form-data") !== false
+                stripos($this->getHeaderLine("Content-Type"), "application/x-www-form-urlencoded") !== false ||
+                stripos($this->getHeaderLine("Content-Type"), "multipart/form-data") !== false
             ) {
                 return $_POST;
             }
         }
 
         $body = (string)$this->getBody();
-        if (strpos($this->getHeaderLine("Content-Type"), "application/json") !== false) {
+        if (stripos($this->getHeaderLine("Content-Type"), "application/json") !== false) {
             return json_decode($body, true);
         }
 
